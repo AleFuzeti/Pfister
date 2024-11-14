@@ -1,6 +1,7 @@
 import tkinter as tk
+import random
 
-BACKGROUND_COLOR = "#DAC8B3"
+BACKGROUND_COLOR = "#F9E9B6"
 
 class PyramidApp:
     def __init__(self, root):
@@ -21,13 +22,12 @@ class PyramidApp:
 
         # Cores iniciais da paleta e contagem de cada cor
         self.colors = [
-            "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", 
-            "#800000", "#808000", "#008000", "#800080", "#008080", "#000080",
-            "#FFA500", "#FFFFFF", "#8A2BE2", "#5F9EA0", "#D2691E", "#FF7F50", 
-            "#6495ED", "#DC143C", "#B0E0E6", "#FFD700", "#ADFF2F", "#FF69B4"
+            "#A7E8FC", "#FF7E91", "#D4E80B", "#ACA3D8", "#FF4625", "#583426", 
+            "#3E999A", "#C72E26", "#94DD1C", "#77314D", "#FFFF07", "#000000",
+            "#3D87A0", "#A22418", "#128125", "#63476F", "#FEB81A", "#FFFFFF", 
+            "#2D2C65", "#88352F", "#2C3E24", "#FF7729", "#79412A", "#7F8F8F"
         ]
-        self.color_counts = {color: 50 for color in self.colors}
-        self.color_count_texts = {}
+        random.shuffle(self.colors)  # Embaralha a lista de cores
         self.selected_color = None
         self.dragging_item = None
         self.item_positions = {}
@@ -52,14 +52,9 @@ class PyramidApp:
     def create_palette(self):
         # Cria a paleta de cores com a quantidade abaixo
         for i, color in enumerate(self.colors):
-            row = i // 6
-            col = i % 6
-            x0 = 380 + col * 50
-            y0 = 50 + row * 50
-            x1 = x0 + 40
-            y1 = y0 + 40
+            x0, y0, x1, y1 = self.get_palette_coords(i)
             palette_rect = self.canvas.create_rectangle(
-                x0, y0, x1, y1, fill=color, tags=("palette", color)
+                x0, y0, x1, y1, fill=color, outline="", tags=("palette",)
             )
             self.canvas.tag_bind(palette_rect, "<Button-1>", self.start_drag)
 
@@ -131,17 +126,21 @@ class PyramidApp:
             if "palette" in self.canvas.gettags(self.dragging_item):
                 # Devolve a cor para a paleta
                 idx = self.colors.index(self.selected_color)
-                row = idx // 6
-                col = idx % 6
-                x0 = 350 + col * 50
-                y0 = 50 + row * 70
-                x1 = x0 + 40
-                y1 = y0 + 40
+                x0, y0, x1, y1 = self.get_palette_coords(idx)
                 self.canvas.coords(self.dragging_item, x0, y0, x1, y1)
         
             self.dragging_item = None
         self.canvas.unbind("<Motion>")
         self.canvas.unbind("<ButtonRelease-1>")
+    
+    def get_palette_coords(self, idx):
+        row = idx // 6
+        col = idx % 6
+        x0 = 380 + col * 50
+        y0 = 50 + row * 50
+        x1 = x0 + 40
+        y1 = y0 + 40
+        return x0, y0, x1, y1
     
 if __name__ == "__main__":
     root = tk.Tk()
