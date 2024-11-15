@@ -21,13 +21,33 @@ class PyramidApp:
         self.canvas.pack()
 
         # Cores iniciais da paleta e contagem de cada cor
-        self.colors = [
-            "#A7E8FC", "#FF7E91", "#D4E80B", "#ACA3D8", "#FF4625", "#583426", 
-            "#3E999A", "#C72E26", "#94DD1C", "#77314D", "#FFFF07", "#000000",
-            "#3D87A0", "#A22418", "#128125", "#63476F", "#FEB81A", "#FFFFFF", 
-            "#2D2C65", "#88352F", "#2C3E24", "#FF7729", "#79412A", "#7F8F8F"
-        ]
-        random.shuffle(self.colors)  # Embaralha a lista de cores
+        self.colors = {
+            "blue1": "#A7E8FC",
+            "blue2": "#3E999A",
+            "blue3": "#3D87A0",
+            "blue4": "#2D2C65",
+            "red1": "#FF7E91",
+            "red2": "#C72E26",
+            "red3": "#A22418",
+            "red4": "#88352F",
+            "green1": "#D4E80B",
+            "green2": "#94DD1C",
+            "green3": "#128125",
+            "green4": "#2C3E24",
+            "violet1": "#ACA3D8",
+            "violet2": "#77314D",
+            "violet3": "#63476F",
+            "yellow1": "#FFFF07",
+            "yellow2": "#FEB81A",
+            "orange1": "#FF7729",
+            "orange2": "#FF4625",
+            "brown1": "#79412A",
+            "brown2": "#583426",
+            "black": "#000000",
+            "white": "#FFFFFF",
+            "gray": "#7F8F8F"
+        }
+        self.colors = dict(random.sample(self.colors.items(), len(self.colors)))
         self.selected_color = None
         self.dragging_item = None
         self.item_positions = {}
@@ -51,7 +71,7 @@ class PyramidApp:
 
     def create_palette(self):
         # Cria a paleta de cores com a quantidade abaixo
-        for i, color in enumerate(self.colors):
+        for i, color in enumerate(self.colors.values()):
             x0, y0, x1, y1 = self.get_palette_coords(i)
             palette_rect = self.canvas.create_rectangle(
                 x0, y0, x1, y1, fill=color, outline="", tags=("palette",)
@@ -125,7 +145,7 @@ class PyramidApp:
                     
             if "palette" in self.canvas.gettags(self.dragging_item):
                 # Devolve a cor para a paleta
-                idx = self.colors.index(self.selected_color)
+                idx = list(self.colors.values()).index(self.selected_color)
                 x0, y0, x1, y1 = self.get_palette_coords(idx)
                 self.canvas.coords(self.dragging_item, x0, y0, x1, y1)
         
