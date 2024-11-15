@@ -52,6 +52,9 @@ class PyramidApp:
         self.dragging_item = None
         self.item_positions = {}
         self.item_names = {}
+    
+        # Initialize a set to keep track of squares that have been colored before
+        self.colored_squares = set()
 
         self.create_pyramid()
         self.create_palette()
@@ -142,9 +145,17 @@ class PyramidApp:
                             self.log_action("remove", color_name, id)
                         # Registra a ação adicionar
                         id = self.item_names[item]
-                        self.log_action("add", color_name, id)    
+                        # Determine if this is a "troca"
+                        if id in self.colored_squares:
+                            troca = "troca"
+                        else:
+                            troca = ""
+                            self.colored_squares.add(id)
+                        # Log the action with "troca" if applicable
+                        self.log_action("add", color_name, id, troca)    
                         
                     else:
+                        print(self.canvas.gettags(item))
                         if "current" in self.canvas.gettags(item):
                             # pinta de branco o quadrado de origem
                             self.canvas.itemconfig(self.dragging_item, fill=BACKGROUND_COLOR)
@@ -156,9 +167,8 @@ class PyramidApp:
                             x, y = self.item_positions[self.dragging_item]
                             self.canvas.coords(self.dragging_item, x, y, x + 40, y + 40)
                         else:
-                            # Retorna a cor para a paleta
-                            idx = list(self.colors.values()).index(self.selected_color)
-                            x, y = self.get_palette_coords(idx)
+                            # volta à posição original
+                            x, y = self.item_positions[self.dragging_item]
                             self.canvas.coords(self.dragging_item, x, y, x + 40, y + 40)
                             
                     break                
@@ -173,9 +183,9 @@ class PyramidApp:
         self.canvas.unbind("<Motion>")
         self.canvas.unbind("<ButtonRelease-1>")
     
-    def log_action(self, action, color_name, id):
+    def log_action(self, action, color_name, id, troca=""):
         with open("acoes.txt", "a") as file:
-            file.write(f"{action}\t{color_name}\t{id}\n")
+            file.write(f"{action} {color_name} {id} {troca}\n")
     
     def get_palette_coords(self, idx):
         row = idx // 6
