@@ -6,7 +6,7 @@ BACKGROUND_COLOR = "#F9E9B6"
 class PyramidApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Pyramid with Color Palette")
+        self.root.title("Teste Pfister")
         
         # Configura a janela em modo de janela e centraliza
         screen_width = self.root.winfo_screenwidth()
@@ -22,18 +22,18 @@ class PyramidApp:
 
         # Cores iniciais da paleta e contagem de cada cor
         self.colors = {
-            "azul1": "#A7E8FC",
-            "azul2": "#3E999A",
-            "azul3": "#3D87A0",
-            "azul4": "#2D2C65",
-            "vermelho1": "#FF7E91",
-            "vermelho2": "#C72E26",
-            "vermelho3": "#A22418",
-            "vermelho4": "#88352F",
-            "verde1": "#D4E80B",
-            "verde2": "#94DD1C",
-            "verde3": "#128125",
-            "verde4": "#2C3E24",
+            "azul1":    "#A7E8FC",
+            "azul2":    "#3E999A",
+            "azul3":    "#3D87A0",
+            "azul4":    "#2D2C65",
+            "vermelho1":"#FF7E91",
+            "vermelho2":"#C72E26",
+            "vermelho3":"#A22418",
+            "vermelho4":"#88352F",
+            "verde1":   "#D4E80B",
+            "verde2":   "#94DD1C",
+            "verde3":   "#128125",
+            "verde4":   "#2C3E24",
             "violeta1": "#ACA3D8",
             "violeta2": "#77314D",
             "violeta3": "#63476F",
@@ -41,11 +41,11 @@ class PyramidApp:
             "amarelo2": "#FEB81A",
             "laranja1": "#FF7729",
             "laranja2": "#FF4625",
-            "marrom1": "#79412A",
-            "marrom2": "#583426",
-            "preto": "#000000",
-            "branco": "#FFFFFF",
-            "cinza": "#7F8F8F"
+            "marrom1":  "#79412A",
+            "marrom2":  "#583426",
+            "preto":    "#000000",
+            "branco":   "#FFFFFF",
+            "cinza":    "#7F8F8F"
         }
         self.colors = dict(random.sample(self.colors.items(), len(self.colors)))
         self.selected_color = None
@@ -152,7 +152,7 @@ class PyramidApp:
                             troca = ""
                             self.colored_squares.add(id)
                         # Log the action with "troca" if applicable
-                        self.log_action("adiciona", color_name, id, troca)    
+                        self.log_action("adiciona", color_name, id, troca)
                         
                     else:
                         if "current" in self.canvas.gettags(item):
@@ -196,7 +196,7 @@ class PyramidApp:
         x = 380 + col * 50
         y = 50 + row * 50
         return x, y
-    
+        
 if __name__ == "__main__":
     root = tk.Tk()
     app = PyramidApp(root)
