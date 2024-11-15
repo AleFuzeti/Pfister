@@ -22,30 +22,30 @@ class PyramidApp:
 
         # Cores iniciais da paleta e contagem de cada cor
         self.colors = {
-            "blue1": "#A7E8FC",
-            "blue2": "#3E999A",
-            "blue3": "#3D87A0",
-            "blue4": "#2D2C65",
-            "red1": "#FF7E91",
-            "red2": "#C72E26",
-            "red3": "#A22418",
-            "red4": "#88352F",
-            "green1": "#D4E80B",
-            "green2": "#94DD1C",
-            "green3": "#128125",
-            "green4": "#2C3E24",
-            "violet1": "#ACA3D8",
-            "violet2": "#77314D",
-            "violet3": "#63476F",
-            "yellow1": "#FFFF07",
-            "yellow2": "#FEB81A",
-            "orange1": "#FF7729",
-            "orange2": "#FF4625",
-            "brown1": "#79412A",
-            "brown2": "#583426",
-            "black": "#000000",
-            "white": "#FFFFFF",
-            "gray": "#7F8F8F"
+            "azul1": "#A7E8FC",
+            "azul2": "#3E999A",
+            "azul3": "#3D87A0",
+            "azul4": "#2D2C65",
+            "vermelho1": "#FF7E91",
+            "vermelho2": "#C72E26",
+            "vermelho3": "#A22418",
+            "vermelho4": "#88352F",
+            "verde1": "#D4E80B",
+            "verde2": "#94DD1C",
+            "verde3": "#128125",
+            "verde4": "#2C3E24",
+            "violeta1": "#ACA3D8",
+            "violeta2": "#77314D",
+            "violeta3": "#63476F",
+            "amarelo1": "#FFFF07",
+            "amarelo2": "#FEB81A",
+            "laranja1": "#FF7729",
+            "laranja2": "#FF4625",
+            "marrom1": "#79412A",
+            "marrom2": "#583426",
+            "preto": "#000000",
+            "branco": "#FFFFFF",
+            "cinza": "#7F8F8F"
         }
         self.colors = dict(random.sample(self.colors.items(), len(self.colors)))
         self.selected_color = None
@@ -152,7 +152,7 @@ class PyramidApp:
                             troca = ""
                             self.colored_squares.add(id)
                         # Log the action with "troca" if applicable
-                        self.log_action("add", color_name, id, troca)    
+                        self.log_action("adiciona", color_name, id, troca)    
                         
                     else:
                         print(self.canvas.gettags(item))
@@ -162,7 +162,7 @@ class PyramidApp:
                             # Registra ação remover
                             color_name = list(self.colors.keys())[list(self.colors.values()).index(self.selected_color)]
                             id = self.item_names[self.dragging_item]
-                            self.log_action("rem", color_name, id)
+                            self.log_action("remove", color_name, id)
                             # Destino já pintado, retorna à posição original
                             x, y = self.item_positions[self.dragging_item]
                             self.canvas.coords(self.dragging_item, x, y, x + 40, y + 40)
@@ -185,7 +185,7 @@ class PyramidApp:
     
     def log_action(self, action, color_name, id, troca=""):
         with open("acoes.txt", "a") as file:
-            file.write(f"{action} {color_name} {id} {troca}\n")
+            file.write(f"{action:<9} {color_name:<10} {id:<3} {troca}\n")
     
     def get_palette_coords(self, idx):
         row = idx // 6
